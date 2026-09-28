@@ -57,10 +57,14 @@ return {
       vim.g.gruvbox_material_background = "medium"
       vim.g.gruvbox_material_better_performance = 1
       vim.cmd("colorscheme gruvbox-material")
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, sp = "#FB4934" })
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { undercurl = true, sp = "#FABD2F" })
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { undercurl = true, sp = "#83A598" })
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { undercurl = true, sp = "#8EC07C" })
+      -- undercurl (y el color de subrayado) usan sintaxis SGR con ":" que
+      -- ConPTY descarta al lanzar wsl.exe desde WezTerm en Windows (ver
+      -- https://github.com/wezterm/wezterm/issues/3590) - queda invisible
+      -- pese a estar bien configurado. underline plano sí sobrevive.
+      vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { underline = true, sp = "#FB4934" })
+      vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { underline = true, sp = "#FABD2F" })
+      vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { underline = true, sp = "#83A598" })
+      vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underline = true, sp = "#8EC07C" })
     end,
   },
 
