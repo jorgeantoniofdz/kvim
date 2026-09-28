@@ -54,6 +54,28 @@ return {
       return linter
     end
 
+    -- golangci-lint solo reporta una posición puntual (col == end_col), no un
+    -- rango, así que vim.diagnostic no tiene nada que subrayar. Se extiende
+    -- end_col hasta el final de la palabra en esa posición para que el
+    -- undercurl de error/warning sea visible sobre el identificador.
+    local golangcilint_linter = require("lint.linters.golangcilint")
+    lint.linters.golangcilint = function()
+      local linter = vim.deepcopy(golangcilint_linter)
+      local parse = linter.parser
+      linter.parser = function(output, bufnr, cwd)
+        local diagnostics = parse(output, bufnr, cwd)
+        for _, d in ipairs(diagnostics) do
+          if d.end_lnum == d.lnum and d.end_col <= d.col then
+            local line = vim.api.nvim_buf_get_lines(bufnr, d.lnum, d.lnum + 1, false)[1] or ""
+            local word = line:sub(d.col + 1):match("^[%w_]+")
+            d.end_col = d.col + (word and #word or 1)
+          end
+        end
+        return diagnostics
+      end
+      return linter
+    end
+
     local function get_local_eslint()
       local buf = vim.api.nvim_get_current_buf()
       local bufname = vim.api.nvim_buf_get_name(buf)
