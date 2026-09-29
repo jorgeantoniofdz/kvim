@@ -25,7 +25,7 @@ require("lazy").setup({
   { import = "plugins.gitconfig" },
   { import = "plugins.todo_comments" },
   { import = "plugins.misc" },
-  --- { import = "plugins.copilot" },
+  { import = "plugins.swagger" },
   { import = "plugins.testing" },
   { import = "plugins.debug" },
   { import = "plugins.diagnostics-focus" },
