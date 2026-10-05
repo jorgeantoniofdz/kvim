@@ -1,5 +1,16 @@
 return {
   {
+    "nvim-tree/nvim-web-devicons",
+    opts = {
+      override_by_extension = {
+        -- El glifo YAML U+E8EB no está disponible en algunas Nerd Fonts.
+        yaml = { icon = "", color = "#F44747", cterm_color = "203", name = "Yaml" },
+        yml = { icon = "", color = "#F44747", cterm_color = "203", name = "Yml" },
+      },
+    },
+  },
+
+  {
     "folke/which-key.nvim",
     event = "VimEnter",
     opts = {
